@@ -1,0 +1,7 @@
+# Documentation in https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+BasedOnStyle: google        # Default to some style
+BreakBeforeBraces: Allman   # "{" always at new line
+IndentWidth: 4              # Number of spaces for indentation
+ColumnLimit: 120            # Line max length in characters
+MaxEmptyLinesToKeep: 4      # Allow some empty lines
+AccessModifierOffset: -2    # Indentation of "public" and "private"

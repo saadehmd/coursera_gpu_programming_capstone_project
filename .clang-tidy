@@ -1,0 +1,64 @@
+---
+# Documentation in https://clang.llvm.org/extra/clang-tidy/checks/list.html
+Checks: "*,
+        -abseil-*,
+        -altera-*,
+        -android-*,
+        -fuchsia-*,
+        -google-*,
+        -llvm*,
+        -modernize-use-trailing-return-type,
+        -zircon-*,
+        -readability-else-after-return,
+        -readability-static-accessed-through-instance,
+        -readability-avoid-const-params-in-decls,
+        -cppcoreguidelines-non-private-member-variables-in-classes,
+        -misc-non-private-member-variables-in-classes,
+        -misc-include-cleaner,
+        -readability-identifier-naming,
+"
+WarningsAsErrors: '*,-modernize-use-nodiscard'
+HeaderFilterRegex: ''
+FormatStyle:     file
+
+CheckOptions:
+  - key:            readability-identifier-length.IgnoredVariableNames
+    value:          'x|y|z|i'
+  - key:            readability-identifier-length.IgnoredParameterNames
+    value:          'x|y|z|i'
+  - key:            readability-identifier-naming.ClassCase
+    value:          CamelCase
+  - key:            readability-identifier-naming.ClassMemberCase
+    value:          lower_case
+  - key:            readability-identifier-naming.MemberSuffix
+    value:          _
+  - key:            readability-identifier-naming.ClassConstantSuffix
+    value:          _
+  - key:            readability-identifier-naming.EnumCase
+    value:          CamelCase
+  - key:            readability-identifier-naming.FunctionCase
+    value:          camelBack
+  - key:            readability-identifier-naming.MacroDefinitionCase
+    value:          UPPER_CASE
+  - key:            readability-identifier-naming.MacroDefinitionIgnoredRegexp
+    value:          '^[A-Z]+(_[A-Z]+)*_$'
+  - key:            readability-identifier-naming.MemberCase
+    value:          lower_case
+  # - key:            readability-identifier-naming.MemberIgnoredRegexp
+  #   value:          "Ptr"
+  - key:            readability-identifier-naming.NamespaceCase
+    value:          lower_case
+  - key:            readability-identifier-naming.ParameterCase
+    value:          lower_case
+  - key:            readability-identifier-naming.VariableCase
+    value:          lower_case
+  - key:            readability-identifier-naming.IgnoreMainLikeFunctions
+    value:          1
+  # To avoid errors from ROS complex logging macros
+  - key:            readability-function-cognitive-complexity.IgnoreMacros
+    value:          true
+  # To avoid warnings of two adjacent similar parameters
+  - key:            bugprone-easily-swappable-parameters.MinimumLength
+    value:	        3
+
+
