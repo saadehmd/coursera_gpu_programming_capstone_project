@@ -68,7 +68,7 @@ int main()
     const std::atomic<bool> interrupted{false};
     bool all_results_match_expectation = true;
     std::cout << std::fixed << std::setprecision(3);
-    std::cout << "total_cloud_points,cpu_clustering_ms,gpu_clustering_ms\n";
+    std::cout << "no_of_clusters,total_cloud_points,cpu_clustering_ms,gpu_clustering_ms\n";
 
     for (const std::size_t cluster_count : cluster_counts)
     {
@@ -86,7 +86,7 @@ int main()
             matchesReplicatedCloudExpectation(cpu_clusters, cluster_count, base_point_count, "PCL CPU") &&
             all_results_match_expectation;
 
-        std::cout << point_count << ','
+          std::cout << cluster_count << ',' << point_count << ','
               << nanosecondsToMilliseconds(elapsedNanoseconds(cpu_start, cpu_end)) << ',';
 
         std::vector<pcl::PointIndices> gpu_clusters;
