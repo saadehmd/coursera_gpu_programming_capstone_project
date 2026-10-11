@@ -46,7 +46,7 @@ def main() -> None:
 
     figure, axis = plt.subplots(figsize=(9, 5))
     axis.plot(cpu_points, cpu_times, marker="o", label="CPU clustering")
-    axis.plot(gpu_points, gpu_times, marker="o", label="GPU V3 clustering")
+    axis.plot(gpu_points, gpu_times, marker="o", label="GPU V2 clustering")
     axis.set_xlabel("Total cloud points")
     axis.set_ylabel("Clustering time (ms)")
     axis.set_xscale("log")

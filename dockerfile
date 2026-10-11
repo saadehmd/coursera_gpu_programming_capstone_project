@@ -1,5 +1,9 @@
 FROM nvcr.io/nvidia/cuda:12.2.0-devel-ubuntu22.04 AS base
 
+ARG USER_UID
+ARG USER_GID
+ARG USERNAME
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 # 1. Install system compilation tools and development libraries
