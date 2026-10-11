@@ -179,7 +179,7 @@ void CudaEuclideanClustering::extract(std::vector<pcl::PointIndices>& clusters, 
     }
 }
 
-void CudaEuclideanClustering::extractV3(std::vector<pcl::PointIndices>& clusters, const std::atomic<bool>& interrupt_sig)
+void CudaEuclideanClustering::extractV2(std::vector<pcl::PointIndices>& clusters, const std::atomic<bool>& interrupt_sig)
 {
     if (!device_cloud_ || device_cloud_->cloud_ == nullptr)
     {
@@ -358,14 +358,14 @@ static void sigint_handler(int /*sig*/) { sig_interrupt.store(true); }
 
 void benchmarkClusteringImplementations(CudaEuclideanClustering& clustering, const std::atomic<bool>& interrupt_sig)
 {
-    std::vector<pcl::PointIndices> v3_clusters;
-    const auto v3_start = std::chrono::steady_clock::now();
-    clustering.extractV3(v3_clusters, interrupt_sig);
-    const auto v3_end = std::chrono::steady_clock::now();
+    std::vector<pcl::PointIndices> v2_clusters;
+    const auto v2_start = std::chrono::steady_clock::now();
+    clustering.extractV2(v2_clusters, interrupt_sig);
+    const auto v2_end = std::chrono::steady_clock::now();
 
     if (interrupt_sig.load())
     {
-        std::cout << "V3 clustering interrupted.\n";
+        std::cout << "V2 clustering interrupted.\n";
         return;
     }
 
@@ -379,9 +379,9 @@ void benchmarkClusteringImplementations(CudaEuclideanClustering& clustering, con
     clustering.extractPclCpuImpl(cpu_clusters);
     const auto cpu_end = std::chrono::steady_clock::now();
 
-    std::cout << "V3 all-pairs clustering: "
-              << std::chrono::duration_cast<std::chrono::milliseconds>(v3_end - v3_start).count()
-              << " milliseconds, " << v3_clusters.size() << " clusters.\n";
+    std::cout << "V2 all-pairs clustering: "
+              << std::chrono::duration_cast<std::chrono::milliseconds>(v2_end - v2_start).count()
+              << " milliseconds, " << v2_clusters.size() << " clusters.\n";
     /*std::cout << "PCL GPU clustering: "
               << std::chrono::duration_cast<std::chrono::milliseconds>(pcl_end - pcl_start).count()
               << " milliseconds, " << pcl_clusters.size() << " clusters.\n";*/
@@ -438,8 +438,7 @@ int main(int argc, char** argv)
     std::cout << "Loaded " << cloud->width * cloud->height << " data points from input pcd file.\n";
     std::cout << "Using cluster tolerance: " << cluster_tolerance << "\n";
 
-    auto euclidean_clustering = CudaEuclideanClustering(cluster_tolerance, 10, 10000, 1.0, 500,
-                                                        std::make_tuple(0.02f, 0.02f, 0.02f));
+    auto euclidean_clustering = CudaEuclideanClustering(cluster_tolerance, 10, 10000, 1.0, 500);
     euclidean_clustering.setInputHostCloud(cloud);
     if (num_of_clusters > 1)
     {
